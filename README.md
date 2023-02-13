@@ -1,2 +1,2 @@
-# Projet-LicencePro_MECSE_SESAM---Synthese_Musicale
+# Projet Licence Pro MECSE : Synthèse Musicale
 Projet Synthèse Musicale
