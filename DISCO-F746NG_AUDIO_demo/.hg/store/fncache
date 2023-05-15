@@ -1,0 +1,8 @@
+data/mbed-os.lib.i
+data/AUDIO_DISCO_F746NG.lib.i
+data/BSP_DISCO_F746NG.lib.i
+data/mbed.bld.i
+data/mbed-dev.lib.i
+data/main.cpp.i
+data/SDRAM_DISCO_F746NG.lib.i
+data/.hgignore.i
