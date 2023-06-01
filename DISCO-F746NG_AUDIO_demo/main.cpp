@@ -1,7 +1,7 @@
 #include "mbed.h"
 #include "stm32746g_discovery_audio.h"
 #include "stm32746g_discovery_sdram.h"
-#include <cstdint>
+
 
 
 typedef enum {
@@ -11,16 +11,19 @@ typedef enum {
 } BUFFER_StateTypeDef;
 
 
-#define AUDIO_BLOCK_SIZE   ((uint32_t)512)
+#define AUDIO_BLOCK_SIZE   ((uint32_t)8)
 #define AUDIO_BUFFER_IN     SDRAM_DEVICE_ADDR
 #define AUDIO_BUFFER_OUT   (AUDIO_BUFFER_IN + (AUDIO_BLOCK_SIZE * 2))
 
-const float frequencies[] = {440.0f, 880.0f, 1320.0f, 1760.0f};
+const float frequencies[] = {220.0f, 440.0f ,880.0f, 1320.0f};
 const float amplitudes[] = {1.0f, 0.5f, 0.3f, 0.2f};
 const int num_harmonics = sizeof(frequencies) / sizeof(float);
 
 
 uint16_t pBuffer[AUDIO_BLOCK_SIZE]; // buffer de sortie
+uint32_t i = 0;
+
+DigitalIn allo(USER_BUTTON);
 
 volatile uint32_t  audio_rec_buffer_state = BUFFER_OFFSET_NONE;
 
@@ -43,21 +46,21 @@ int main()
     audio_rec_buffer_state = BUFFER_OFFSET_NONE;
 
 
-for (uint32_t i = 0; i < AUDIO_BLOCK_SIZE; i++) {
-    float t = (float)i / 2;
-    float value = 0.0f;
-    for (int j = 0; j < num_harmonics; j++) {
-        value += amplitudes[j] * sin(2.0f * 3.14f * frequencies[j] * t);
-    }
-    pBuffer[i] = (uint16_t)(0 * 0xFFFF);
-}
+
     /* Start Playback */
+    printf("Etape 1\n");
     BSP_AUDIO_OUT_SetAudioFrameSlot(CODEC_AUDIOFRAME_SLOT_02);
     BSP_AUDIO_OUT_Play(pBuffer, AUDIO_BLOCK_SIZE);
-    osDelay(500);
-    BSP_AUDIO_OUT_Pause();
+
+
+  
+    printf("Etape 2\n");
+        for (i=0; i < AUDIO_BLOCK_SIZE; i++) {
+            float value = 0.0f;
+            value = 2.0f * sin(2.0f * 3.14f * 440.0f*i);
+            pBuffer[2*i] = (uint16_t)(value * 0xFFFF);
+      }
+
+        
+
 }
-
-
-
-
