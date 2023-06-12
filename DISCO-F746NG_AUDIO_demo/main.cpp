@@ -90,6 +90,10 @@ int main()
         
         BSP_TS_GetState(&TS_State);
         if (TS_State.touchDetected == 2) {
+            if (lock==0){
+                lock =1;
+                BSP_AUDIO_OUT_Init(OUTPUT_DEVICE_HEADPHONE, 40, 44100);
+            }
             for (i= 0; i < AUDIO_BLOCK_SIZE;i++)
             {
             value = (uint16_t)20000.0f * sin(2.0f * 3.14f * 440.0f*((float)i/DEFAULT_AUDIO_IN_FREQ));
@@ -98,6 +102,10 @@ int main()
             memcpy((uint16_t *)(AUDIO_BUFFER_OUT), (uint16_t *)(pBuffer), AUDIO_BLOCK_SIZE);
         }
         else if (TS_State.touchDetected == 1) {
+            if (lock==0){
+                lock =1;
+                BSP_AUDIO_OUT_Init(OUTPUT_DEVICE_HEADPHONE, 40, 22100);
+            }
             for (i= 0; i < AUDIO_BLOCK_SIZE;i++)
             {
             value = (uint16_t)20000.0f * sin(2.0f * 3.14f * 1440.0f*((float)i/2));
@@ -107,6 +115,10 @@ int main()
         }
 
         else if (TS_State.touchDetected == 3) {
+            if (lock==0){
+                lock =1;
+                BSP_AUDIO_OUT_Init(OUTPUT_DEVICE_HEADPHONE, 40, 5000);
+            }
             for (i= 0; i < AUDIO_BLOCK_SIZE;i++)
             {
             value = (uint16_t)20000.0f * sin(2.0f * 3.14f * 4000.0f*((float)i/DEFAULT_AUDIO_IN_FREQ));
@@ -116,6 +128,10 @@ int main()
         }
 
         else if (TS_State.touchDetected == 4) {
+            if (lock==0){
+                lock =1;
+                BSP_AUDIO_OUT_Init(OUTPUT_DEVICE_HEADPHONE, 40, 50100);
+            }
             for (i= 0; i < AUDIO_BLOCK_SIZE;i++)
             {
             value = (uint16_t)200000.0f * sin(2.0f * 3.14f * 12000.0f*((float)i/DEFAULT_AUDIO_IN_FREQ));
@@ -125,6 +141,7 @@ int main()
         }
 
         else if (TS_State.touchDetected < 1) { 
+                        lock =0;
             memset((uint16_t *)pBuffer, 0, AUDIO_BLOCK_SIZE * 2);
             memcpy((uint16_t *)(AUDIO_BUFFER_OUT), (uint16_t *)(pBuffer), AUDIO_BLOCK_SIZE);
         }
