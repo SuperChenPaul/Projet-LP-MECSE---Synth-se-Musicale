@@ -1,6 +1,0 @@
-BUILD
-mbed-os/
-^BUILD$
-^.mbed$
-^mbed-os$
-^BSP_DISCO_F746NG$
