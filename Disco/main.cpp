@@ -23,7 +23,7 @@ typedef enum {
 #define AUDIO_BUFFER_OUT3 (AUDIO_BUFFER_IN + (AUDIO_BLOCK_SIZE * 9))
 #define AUDIO_BUFFER_OUT4 (AUDIO_BUFFER_IN + (AUDIO_BLOCK_SIZE * 12))
 #define AUDIO_BUFFER_OUT5 (AUDIO_BUFFER_IN + (AUDIO_BLOCK_SIZE * 15))
-#define AUDIO_BUFFER_OUT17 (AUDIO_BUFFER_IN + (AUDIO_BLOCK_SIZE * 2))
+
 
 int main() {
 
@@ -98,20 +98,20 @@ int main() {
         value = (uint16_t)20000.0f * sin(2.0f * 3.14f * 440.0f * ((float)i / DEFAULT_AUDIO_IN_FREQ));
         pBuffer[i] = (uint16_t)(value * 0xFFFF);
       }
-      memcpy((uint16_t *)(AUDIO_BUFFER_OUT1), (uint16_t *)(pBuffer), AUDIO_BLOCK_SIZE );
+      memcpy((uint16_t *)(AUDIO_BUFFER_OUT), (uint16_t *)(pBuffer), AUDIO_BLOCK_SIZE );
       BSP_AUDIO_OUT_Play((uint16_t *)AUDIO_BUFFER_OUT, AUDIO_BLOCK_SIZE);
     } 
     else if (TS_State.touchX[0] < 100 && TS_State.touchX[0] > 50 && TS_State.touchY[0] <135 &&TS_State.touchDetected == 1) {
-      for (i = 0; i < AUDIO_BLOCK_SIZE*2; i++) {
-        value = (uint16_t)20000.0f * sin(2.0f * 3.14f * 1.0f * ((float)i / DEFAULT_AUDIO_IN_FREQ));
+      for (i = 0; i < AUDIO_BLOCK_SIZE; i++) {
+        value = (uint16_t)20000.0f * sin(2.0f * 3.14f * 4400.0f * ((float)i / DEFAULT_AUDIO_IN_FREQ));
         pBuffer[i] = (uint16_t)(value * 0xFFFF);
       }
-      memcpy((uint16_t *)(AUDIO_BUFFER_OUT17), (uint16_t *)(pBuffer), AUDIO_BLOCK_SIZE*2);
-      BSP_AUDIO_OUT_Play((uint16_t *)AUDIO_BUFFER_OUT17, AUDIO_BLOCK_SIZE*2);
+      memcpy((uint16_t *)(AUDIO_BUFFER_OUT), (uint16_t *)(pBuffer), AUDIO_BLOCK_SIZE);
+      BSP_AUDIO_OUT_Play((uint16_t *)AUDIO_BUFFER_OUT, AUDIO_BLOCK_SIZE);
     }
     else if (TS_State.touchX[0] < 150 && TS_State.touchX[0] > 100 && TS_State.touchY[0] < 135 && TS_State.touchDetected == 1) {
       for (i = 0; i < AUDIO_BLOCK_SIZE; i++) {
-        value = (uint16_t)20000.0f * sin(2.0f * 3.14f * 10000000.0f * ((float)i / DEFAULT_AUDIO_IN_FREQ));
+        value = (uint16_t)20000.0f * sin(2.0f * 3.14f * 44000.0f * ((float)i / DEFAULT_AUDIO_IN_FREQ));
         pBuffer[i] = (uint16_t)(value * 0xFFFF);
       }
       memcpy((uint16_t *)(AUDIO_BUFFER_OUT), (uint16_t *)(pBuffer), AUDIO_BLOCK_SIZE);
@@ -235,7 +235,6 @@ int main() {
       BSP_AUDIO_OUT_Play((uint16_t *)AUDIO_BUFFER_OUT5, AUDIO_BLOCK_SIZE * 15);
     }
     else {
-
       BSP_AUDIO_OUT_Stop(CODEC_PDWN_SW);
     }
   }
