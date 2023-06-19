@@ -9,6 +9,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+Serial bluetooth (PF_7,PF_6);
+
 typedef enum {
   BUFFER_OFFSET_NONE = 0,
   BUFFER_OFFSET_HALF = 1,
@@ -27,6 +29,8 @@ typedef enum {
 
 int main() {
 
+    
+
   TS_StateTypeDef TS_State;
   uint8_t status;
   uint16_t pBuffer[AUDIO_BLOCK_SIZE * 20]; // buffer de sortie
@@ -34,6 +38,8 @@ int main() {
   uint16_t i = 0;
   float value = 0.0f;
   int lock = 0;
+
+  bluetooth.baud(115200);
 
   BSP_LCD_Init();
   BSP_LCD_LayerDefaultInit(LTDC_ACTIVE_LAYER, LCD_FB_START_ADDRESS);
@@ -90,152 +96,153 @@ int main() {
   BSP_LCD_DrawHLine(0, 135, 480);
   
   while (1) {
+    char x =  bluetooth.getc() ;
+    printf("%c",x);
 
     BSP_TS_GetState(&TS_State);
 
-    if (TS_State.touchX[0] < 50 && TS_State.touchY[0] < 135 && TS_State.touchDetected == 1) {
+    switch (x)
+    {
+
+    case('a'):
       for (i = 0; i < AUDIO_BLOCK_SIZE; i++) {
         value = (uint16_t)20000.0f * sin(2.0f * 3.14f * 440.0f * ((float)i / DEFAULT_AUDIO_IN_FREQ));
         pBuffer[i] = (uint16_t)(value * 0xFFFF);
       }
       memcpy((uint16_t *)(AUDIO_BUFFER_OUT), (uint16_t *)(pBuffer), AUDIO_BLOCK_SIZE );
       BSP_AUDIO_OUT_Play((uint16_t *)AUDIO_BUFFER_OUT, AUDIO_BLOCK_SIZE);
-    } 
-    else if (TS_State.touchX[0] < 100 && TS_State.touchX[0] > 50 && TS_State.touchY[0] <135 &&TS_State.touchDetected == 1) {
+    break;
+    case('b'):
       for (i = 0; i < AUDIO_BLOCK_SIZE; i++) {
         value = (uint16_t)20000.0f * sin(2.0f * 3.14f * 4400.0f * ((float)i / DEFAULT_AUDIO_IN_FREQ));
         pBuffer[i] = (uint16_t)(value * 0xFFFF);
       }
       memcpy((uint16_t *)(AUDIO_BUFFER_OUT), (uint16_t *)(pBuffer), AUDIO_BLOCK_SIZE);
       BSP_AUDIO_OUT_Play((uint16_t *)AUDIO_BUFFER_OUT, AUDIO_BLOCK_SIZE);
-    }
-    else if (TS_State.touchX[0] < 150 && TS_State.touchX[0] > 100 && TS_State.touchY[0] < 135 && TS_State.touchDetected == 1) {
+    break;
+    case('c'):
       for (i = 0; i < AUDIO_BLOCK_SIZE; i++) {
         value = (uint16_t)20000.0f * sin(2.0f * 3.14f * 44000.0f * ((float)i / DEFAULT_AUDIO_IN_FREQ));
         pBuffer[i] = (uint16_t)(value * 0xFFFF);
       }
       memcpy((uint16_t *)(AUDIO_BUFFER_OUT), (uint16_t *)(pBuffer), AUDIO_BLOCK_SIZE);
       BSP_AUDIO_OUT_Play((uint16_t *)AUDIO_BUFFER_OUT, AUDIO_BLOCK_SIZE);
-    }
-    else if (TS_State.touchX[0] < 200 && TS_State.touchX[0] > 150 && TS_State.touchY[0] < 135 && TS_State.touchDetected == 1) {
+    break;
+    case('d'):
       for (i = 0; i < AUDIO_BLOCK_SIZE*3; i++) {
         value = (uint16_t)20000.0f * sin(2.0f * 3.14f * 440.0f * ((float)i / DEFAULT_AUDIO_IN_FREQ));
         pBuffer[i] = (uint16_t)(value * 0xFFFF);
       }
       memcpy((uint16_t *)(AUDIO_BUFFER_OUT1), (uint16_t *)(pBuffer), AUDIO_BLOCK_SIZE*3);
       BSP_AUDIO_OUT_Play((uint16_t *)AUDIO_BUFFER_OUT1, AUDIO_BLOCK_SIZE*3);
-    }
-    else if (TS_State.touchX[0] < 250 && TS_State.touchX[0] > 200 && TS_State.touchY[0] < 135 && TS_State.touchDetected == 1) {
+    break;
+    case('e'):
       for (i = 0; i < AUDIO_BLOCK_SIZE*3; i++) {
         value = (uint16_t)20000.0f * sin(2.0f * 3.14f * 4400.0f * ((float)i / DEFAULT_AUDIO_IN_FREQ));
         pBuffer[i] = (uint16_t)(value * 0xFFFF);
       }
       memcpy((uint16_t *)(AUDIO_BUFFER_OUT1), (uint16_t *)(pBuffer), AUDIO_BLOCK_SIZE*3);
       BSP_AUDIO_OUT_Play((uint16_t *)AUDIO_BUFFER_OUT1, AUDIO_BLOCK_SIZE*3);
-    }
-    else if (TS_State.touchX[0] < 300 && TS_State.touchX[0] > 250 && TS_State.touchY[0] < 135 && TS_State.touchDetected == 1) {
+    break;
+    case('f'):
       for (i = 0; i < AUDIO_BLOCK_SIZE*3; i++) {
         value = (uint16_t)20000.0f * sin(2.0f * 3.14f * 44000.0f * ((float)i / DEFAULT_AUDIO_IN_FREQ));
         pBuffer[i] = (uint16_t)(value * 0xFFFF);
       }
       memcpy((uint16_t *)(AUDIO_BUFFER_OUT1), (uint16_t *)(pBuffer), AUDIO_BLOCK_SIZE*3);
       BSP_AUDIO_OUT_Play((uint16_t *)AUDIO_BUFFER_OUT1, AUDIO_BLOCK_SIZE*3);
-    }
-    else if (TS_State.touchX[0] < 350 && TS_State.touchX[0] > 300 && TS_State.touchY[0] < 135 && TS_State.touchDetected == 1) {
+    break;
+    case('g'):
       for (i = 0; i < AUDIO_BLOCK_SIZE*6; i++) {
         value = (uint16_t)20000.0f * sin(2.0f * 3.14f * 440.0f * ((float)i / DEFAULT_AUDIO_IN_FREQ));
         pBuffer[i] = (uint16_t)(value * 0xFFFF);
       }
       memcpy((uint16_t *)(AUDIO_BUFFER_OUT2), (uint16_t *)(pBuffer), AUDIO_BLOCK_SIZE*6);
       BSP_AUDIO_OUT_Play((uint16_t *)AUDIO_BUFFER_OUT2, AUDIO_BLOCK_SIZE*6);
-    }
-    else if (TS_State.touchX[0] < 400 && TS_State.touchX[0] > 350 && TS_State.touchY[0] < 135 && TS_State.touchDetected == 1) {
+    break;
+    case('h'):
       for (i = 0; i < AUDIO_BLOCK_SIZE*6; i++) {
         value = (uint16_t)20000.0f * sin(2.0f * 3.14f * 4400.0f * ((float)i / DEFAULT_AUDIO_IN_FREQ));
         pBuffer[i] = (uint16_t)(value * 0xFFFF);
       }
       memcpy((uint16_t *)(AUDIO_BUFFER_OUT2), (uint16_t *)(pBuffer), AUDIO_BLOCK_SIZE*6);
       BSP_AUDIO_OUT_Play((uint16_t *)AUDIO_BUFFER_OUT2, AUDIO_BLOCK_SIZE*6);
-    }
-    else if (TS_State.touchX[0] < 450 && TS_State.touchX[0] >400 && TS_State.touchY[0] < 135 && TS_State.touchDetected == 1) {
-      for (i = 0; i < AUDIO_BLOCK_SIZE*6; i++) {
+    break;
+    case('i'):     
+     for (i = 0; i < AUDIO_BLOCK_SIZE*6; i++) {
         value = (uint16_t)20000.0f * sin(2.0f * 3.14f * 44000.0f * ((float)i / DEFAULT_AUDIO_IN_FREQ));
         pBuffer[i] = (uint16_t)(value * 0xFFFF);
       }
       memcpy((uint16_t *)(AUDIO_BUFFER_OUT2), (uint16_t *)(pBuffer), AUDIO_BLOCK_SIZE*6);
       BSP_AUDIO_OUT_Play((uint16_t *)AUDIO_BUFFER_OUT2, AUDIO_BLOCK_SIZE*6);
-    }
-
-    else if (TS_State.touchX[0] < 50 && TS_State.touchY[0] > 135 &&TS_State.touchDetected == 1) {
-      for (i = 0; i < AUDIO_BLOCK_SIZE * 9 ; i++) {
+    break;
+    case('j'):      
+        for (i = 0; i < AUDIO_BLOCK_SIZE * 9 ; i++) {
         value = (uint16_t)20000.0f * sin(2.0f * 3.14f * 440.0f *((float) i / DEFAULT_AUDIO_IN_FREQ));
         pBuffer[i] = (uint16_t)(value * 0xFFFF);
       }
       memcpy((uint16_t *)(AUDIO_BUFFER_OUT3), (uint16_t *)(pBuffer), AUDIO_BLOCK_SIZE * 9);
       BSP_AUDIO_OUT_Play((uint16_t *)AUDIO_BUFFER_OUT3, AUDIO_BLOCK_SIZE * 9);
-    }
-    else if (TS_State.touchX[0] < 100 && TS_State.touchX[0] > 50 && TS_State.touchY[0] > 135 &&TS_State.touchDetected == 1) {
+    break;
+    case('k'):    
       for (i = 0; i < AUDIO_BLOCK_SIZE * 9 ; i++) {
         value = (uint16_t)20000.0f * sin(2.0f * 3.14f * 4400.0f *((float) i / DEFAULT_AUDIO_IN_FREQ));
         pBuffer[i] = (uint16_t)(value * 0xFFFF);
       }
       memcpy((uint16_t *)(AUDIO_BUFFER_OUT3), (uint16_t *)(pBuffer), AUDIO_BLOCK_SIZE * 9);
       BSP_AUDIO_OUT_Play((uint16_t *)AUDIO_BUFFER_OUT3, AUDIO_BLOCK_SIZE * 9);
-    }
-    else if (TS_State.touchX[0] < 150 && TS_State.touchX[0] > 100 && TS_State.touchY[0] > 135 &&TS_State.touchDetected == 1) {
+    break;
+    case('l'):
       for (i = 0; i < AUDIO_BLOCK_SIZE * 9 ; i++) {
         value = (uint16_t)20000.0f * sin(2.0f * 3.14f * 44000.0f *((float) i / DEFAULT_AUDIO_IN_FREQ));
         pBuffer[i] = (uint16_t)(value * 0xFFFF);
       }
       memcpy((uint16_t *)(AUDIO_BUFFER_OUT3), (uint16_t *)(pBuffer), AUDIO_BLOCK_SIZE * 9);
       BSP_AUDIO_OUT_Play((uint16_t *)AUDIO_BUFFER_OUT3, AUDIO_BLOCK_SIZE * 9);
-    }
-    else if (TS_State.touchX[0] < 200 && TS_State.touchX[0] > 150 && TS_State.touchY[0] > 135 &&TS_State.touchDetected == 1) {
+    break;
+    case('m'):
       for (i = 0; i < AUDIO_BLOCK_SIZE * 12 ; i++) {
         value = (uint16_t)20000.0f * sin(2.0f * 3.14f * 440.0f *((float) i / DEFAULT_AUDIO_IN_FREQ));
         pBuffer[i] = (uint16_t)(value * 0xFFFF);
       }
       memcpy((uint16_t *)(AUDIO_BUFFER_OUT4), (uint16_t *)(pBuffer), AUDIO_BLOCK_SIZE * 12);
       BSP_AUDIO_OUT_Play((uint16_t *)AUDIO_BUFFER_OUT4, AUDIO_BLOCK_SIZE * 12);
-    }
-
-    else if (TS_State.touchX[0] < 250 && TS_State.touchX[0] > 200 && TS_State.touchY[0] > 135 &&TS_State.touchDetected == 1) {
+    break;
+    case('n'):
       for (i = 0; i < AUDIO_BLOCK_SIZE * 12 ; i++) {
         value = (uint16_t)20000.0f * sin(2.0f * 3.14f * 4400.0f *((float) i / DEFAULT_AUDIO_IN_FREQ));
         pBuffer[i] = (uint16_t)(value * 0xFFFF);
       }
       memcpy((uint16_t *)(AUDIO_BUFFER_OUT4), (uint16_t *)(pBuffer), AUDIO_BLOCK_SIZE * 12);
       BSP_AUDIO_OUT_Play((uint16_t *)AUDIO_BUFFER_OUT4, AUDIO_BLOCK_SIZE * 12);
-    }
-    
-    else if (TS_State.touchX[0] < 300 && TS_State.touchX[0] > 250 && TS_State.touchY[0] > 135 &&TS_State.touchDetected == 1) {
+    break;
+    case('o'):
       for (i = 0; i < AUDIO_BLOCK_SIZE * 12 ; i++) {
         value = (uint16_t)20000.0f * sin(2.0f * 3.14f * 44000.0f *((float) i / DEFAULT_AUDIO_IN_FREQ));
         pBuffer[i] = (uint16_t)(value * 0xFFFF);
       }
       memcpy((uint16_t *)(AUDIO_BUFFER_OUT4), (uint16_t *)(pBuffer), AUDIO_BLOCK_SIZE * 12);
       BSP_AUDIO_OUT_Play((uint16_t *)AUDIO_BUFFER_OUT4, AUDIO_BLOCK_SIZE * 12);
-    }
-    
-    else if (TS_State.touchX[0] < 350 && TS_State.touchX[0] > 300 && TS_State.touchY[0] > 135 &&TS_State.touchDetected == 1) {
+    break;
+    case('p'):
       for (i = 0; i < AUDIO_BLOCK_SIZE * 15 ; i++) {
         value = (uint16_t)20000.0f * sin(2.0f * 3.14f * 440.0f *((float) i / DEFAULT_AUDIO_IN_FREQ));
         pBuffer[i] = (uint16_t)(value * 0xFFFF);
       }
       memcpy((uint16_t *)(AUDIO_BUFFER_OUT5), (uint16_t *)(pBuffer), AUDIO_BLOCK_SIZE * 15);
       BSP_AUDIO_OUT_Play((uint16_t *)AUDIO_BUFFER_OUT5, AUDIO_BLOCK_SIZE * 15);
-    }
-        
-    else if (TS_State.touchX[0] < 400 && TS_State.touchX[0] > 350 && TS_State.touchY[0] > 135 &&TS_State.touchDetected == 1) {
+    break;   
+    case('q'):
       for (i = 0; i < AUDIO_BLOCK_SIZE * 15 ; i++) {
         value = (uint16_t)20000.0f * sin(2.0f * 3.14f * 4400.0f *((float) i / DEFAULT_AUDIO_IN_FREQ));
         pBuffer[i] = (uint16_t)(value * 0xFFFF);
       }
       memcpy((uint16_t *)(AUDIO_BUFFER_OUT5), (uint16_t *)(pBuffer), AUDIO_BLOCK_SIZE * 15);
       BSP_AUDIO_OUT_Play((uint16_t *)AUDIO_BUFFER_OUT5, AUDIO_BLOCK_SIZE * 15);
-    }
-    else {
+    break;
+    case(' '):
       BSP_AUDIO_OUT_Stop(CODEC_PDWN_SW);
-    }
+    break;
   }
-}
+  }
+  }
