@@ -17,7 +17,6 @@ import android.widget.VideoView;
 public class MainActivity extends AppCompatActivity {
 
     VideoView videoView;
-    //int duration = Toast.LENGTH_SHORT;
     private MediaPlayer mediaPlayer1;
 
     @Override
@@ -65,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
         videoView.start();
 
         mediaPlayer1 = MediaPlayer.create(this, R.raw.piano1);
-        // Toast toast2 = Toast.makeText(this, "test2",duration);
         videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
@@ -78,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
         Touchemenu1.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
+
                 return true;
             }
         });
@@ -85,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
         Touchemenu2.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
+
                 return true;
             }
         });
@@ -92,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
         Touchemenu3.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
+
                 return true;
             }
         });

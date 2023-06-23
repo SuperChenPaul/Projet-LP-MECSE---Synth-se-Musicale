@@ -37,6 +37,7 @@ public class SplashActivity extends AppCompatActivity {
 
             @Override
             public void onAnimationEnd(Animation animation) {
+
                 wiianim.setVisibility(View.GONE);
             }
 
